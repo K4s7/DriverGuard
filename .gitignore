@@ -9,3 +9,4 @@ data/india_finetune/
 models/*.pt
 models/*.dat
 Thumbs.db
+*.zip 
