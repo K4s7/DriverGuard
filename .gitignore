@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.backup.pt
+data/logs/*.db
+data/logs/*.log
+data/india_finetune/
+models/shape_predictor_68_face_landmarks.dat
+Thumbs.db

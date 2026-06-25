@@ -1,0 +1,41 @@
+# ─────────────────────────────────────────────────────────
+#  VSM — requirements.txt
+#  Install: pip install -r requirements.txt
+# ─────────────────────────────────────────────────────────
+
+# Core
+numpy>=1.24.0
+opencv-python>=4.8.0
+PyYAML>=6.0.1
+Pillow>=10.0.0
+
+# Face landmark detection
+dlib>=19.24.0              # needs cmake & boost (see README)
+mediapipe>=0.10.0
+
+# Road damage detection
+ultralytics>=8.0.200       # YOLOv8
+
+# GPS parsing
+pyserial>=3.5
+pynmea2>=1.18.0
+
+# Dashboard / API
+flask>=3.0.0
+flask-socketio>=5.3.6
+eventlet>=0.33.3           # async worker for flask-socketio
+
+# Database
+# sqlite3 is part of Python stdlib — no extra install needed
+
+# Audio alert
+playsound>=1.3.0
+
+# GPIO (only on Raspberry Pi — comment out on non-RPi)
+# RPi.GPIO>=0.7.1
+
+# Utilities
+imutils>=0.5.3
+scipy>=1.11.0
+loguru>=0.7.0
+python-dotenv>=1.0.0

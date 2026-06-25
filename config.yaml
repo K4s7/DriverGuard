@@ -1,0 +1,174 @@
+# # ─────────────────────────────────────────────────────────
+# #  Driver Guard  |  config.yaml
+# # ─────────────────────────────────────────────────────────
+
+# system:
+#   name: "Driver Guard v2.1"
+#   log_level: "INFO"           # DEBUG | INFO | WARNING | ERROR
+#   fps_target: 30
+
+# # ── Camera ───────────────────────────────────────────────
+# # cameras:
+# #   dms:                        # IR cabin-facing camera
+# #     source: 0                 # OpenCV device index (or RTSP URL)
+# #     width: 640
+# #     height: 480
+# #     fps: 30
+# #     flip: false               # mirror if camera is mirrored
+# #   road:                       # Wide-angle front road camera
+# #     source: 1
+# #     width: 1280
+# #     height: 720
+# #     fps: 30
+
+# cameras:
+#   dms:
+#     source: 0
+#     width: 640
+#     height: 480
+#     fps: 30
+#   road:
+#     source: 0
+#     width: 640
+#     height: 480
+#     fps: 30
+
+# # ── Driver Monitoring System ──────────────────────────────
+# # dms:
+# #   # Face detection back-end: "dlib" | "mediapipe" | "both"
+# #   backend: "both"
+# #   dlib_model_path: "models/shape_predictor_68_face_landmarks.dat"
+# #   mediapipe_confidence: 0.5
+
+# dms:
+#   backend: "mediapipe"
+
+#   # Eye Aspect Ratio
+#   ear:
+#     threshold: 0.25
+#     consec_frames: 15         # frames below threshold → alert
+
+#   # Mouth Aspect Ratio
+#   mar:
+#     threshold: 0.65
+#     consec_frames: 10
+
+#   # Head Pose (degrees)
+#   head_pose:
+#     yaw_limit: 30             # ± degrees
+#     pitch_limit: 20
+
+#   # Risk scoring weights (sum to 1.0)
+#   weights:
+#     ear: 0.45
+#     mar: 0.25
+#     head: 0.30
+
+# # ── Road Damage Detection ─────────────────────────────────
+# road:
+#   model_path: "models/yolov8n_rdd_india.pt"
+#   confidence_threshold: 0.50
+#   iou_threshold: 0.45
+#   classes:
+#     0: "pothole"
+#     1: "crack"
+#     2: "rutting"
+#   severity:
+#     minor:    { area_px2_max: 3000,  conf_max: 0.70 }
+#     moderate: { area_px2_max: 10000, conf_max: 0.85 }
+#     severe:   { area_px2_min: 10000 }
+
+# # ── GPS ───────────────────────────────────────────────────
+# gps:
+#   # enabled: true
+#   # port: "/dev/ttyUSB0"        # or "/dev/ttyAMA0" on RPi
+#   # baudrate: 9600
+#   # timeout: 1.0
+#   # simulation: false           # true → use simulated GPS trace
+#   enabled: true
+#   simulation: true
+
+# # ── Alert / Buzzer ────────────────────────────────────────
+# # alert:
+# #   buzzer_gpio_pin: 17         # Raspberry Pi BCM pin (None → skip)
+# #   audio_alert: true
+# #   audio_file: "assets/alert.wav"
+# #   dashboard_host: "0.0.0.0"
+# #   dashboard_port: 5000
+# #   # Consecutive high-risk frames before escalating alert
+# #   escalation_frames: 5
+# alert:
+#   buzzer_gpio_pin: null
+#   audio_alert: false
+
+# # ── Database ──────────────────────────────────────────────
+# database:
+#   path: "data/logs/driver_guard_events.db"
+#   flush_interval_sec: 5
+#   max_rows_per_table: 50000   # rotate after this many rows
+
+system:
+  log_level: "DEBUG"
+
+cameras:
+  dms:
+    source: 1      # this is your laptop camera on your system
+    width: 640
+    height: 480
+    fps: 30
+  road:
+    source: 0      # this is your USB webcam on your system
+    width: 640
+    height: 480
+    fps: 30
+
+dms:
+  backend: "mediapipe"
+  ear:
+    threshold: 0.30       # pre-calibration fallback; auto-cal overrides this
+    consec_frames: 20     # 20 fr = 667ms sustained closure → DROWSY
+  mar:
+    threshold: 0.50       # updated for corrected 6-pt MAR scale (was 0.75 on bogus scale)
+    consec_frames: 12     # 12 fr = 400ms sustained yawn → FATIGUED
+  head_pose:
+    yaw_limit: 30
+    pitch_limit: 20
+    consec_frames: 8      # NEW: 8 fr = 267ms sustained deviation → DISTRACTED
+  weights:
+    ear: 0.45
+    mar: 0.25
+    head: 0.30
+
+road:
+  model_path: "models/yolov8n_rdd_india.pt"
+  confidence_threshold: 0.50
+  classes:
+    0: "pothole"
+    1: "crack_longitudinal"
+    2: "crack_transverse"
+    3: "rutting"
+    4: "repair"
+  severity:
+    minor:
+      area_px2_max: 3000
+    moderate:
+      area_px2_max: 10000
+
+gps:
+  enabled: true
+  simulation: true
+  port: "COM3"
+  baud: 9600
+
+alert:
+  buzzer_gpio_pin: null
+  audio_alert: false
+  dashboard_host: "0.0.0.0"
+  dashboard_port: 5000
+  risk_levels:
+    low: 0.35
+    moderate: 0.65
+
+database:
+  path: "data/logs/driver_guard_events.db"
+  flush_interval: 5

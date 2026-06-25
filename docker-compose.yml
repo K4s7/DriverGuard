@@ -1,0 +1,31 @@
+# docker-compose.yml — Driver Guard development environment
+#
+# Usage:
+#   docker compose up           # start Driver Guard in simulation mode
+#   docker compose up --build   # rebuild image first
+#   docker compose down         # stop
+
+services:
+  driver_guard:
+    build: .
+    container_name: driver_guard
+    restart: unless-stopped
+    ports:
+      - "5000:5000"     # Dashboard
+    volumes:
+      - ./data:/app/data          # Persist SQLite logs
+      - ./models:/app/models      # Persist model weights
+      - ./config.yaml:/app/config.yaml
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: python main.py --simulate
+    # Uncomment below for real hardware on Linux host:
+    # devices:
+    #   - /dev/video0:/dev/video0   # DMS camera
+    #   - /dev/video1:/dev/video1   # Road camera
+    #   - /dev/ttyUSB0:/dev/ttyUSB0 # NEO-6M GPS
+    # privileged: true              # For GPIO access
+
+volumes:
+  dg_data:
+  dg_models:
