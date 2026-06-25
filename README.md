@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🚗 DriverGuard v2.1
 
 > **Real-time Vehicle Safety Monitor** — Drowsiness Detection + Road Damage Detection on a unified live dashboard.
@@ -236,3 +237,7 @@ Phase III 📋 Planned    → Cloud sync, fleet management, mobile app
 
 This project is developed as part of academic coursework.  
 © 2026 DriverGuard Team. All rights reserved.
+=======
+# DriverGuard
+Vehicle Safety Monitor - Driver Monitoring System + Road Damage Detection
+>>>>>>> 7e69633f207fa4210e9bb22afe6f0236d92b10a4
