@@ -6,5 +6,6 @@ __pycache__/
 data/logs/*.db
 data/logs/*.log
 data/india_finetune/
-models/shape_predictor_68_face_landmarks.dat
+models/*.pt
+models/*.dat
 Thumbs.db
