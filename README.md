@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # 🚗 DriverGuard v2.1
 
 > **Real-time Vehicle Safety Monitor** — Drowsiness Detection + Road Damage Detection on a unified live dashboard.
