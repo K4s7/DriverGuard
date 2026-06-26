@@ -1,13 +1,8 @@
-<<<<<<< HEAD
+
 # 🚗 DriverGuard v2.1
 
 > **Real-time Vehicle Safety Monitor** — Drowsiness Detection + Road Damage Detection on a unified live dashboard.
 
-![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
-![YOLOv8](https://img.shields.io/badge/YOLOv8-nano-purple)
-![MediaPipe](https://img.shields.io/badge/MediaPipe-0.10-green?logo=google)
-![Flask](https://img.shields.io/badge/Flask-Socket.IO-black?logo=flask)
-![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20RPi5-orange)
 ![Status](https://img.shields.io/badge/Status-Active%20Development-brightgreen)
 
 ---
